@@ -14,6 +14,9 @@ body{
   padding:15px;
   gap:15px;
   border-radius: 20px;
+  background: linear-gradient(145deg, #25292d, #2c3036);
+  box-shadow:  1px 1px 2px #23262b,
+                -1px -1px 1px #313439;
 }
 #screen{
   display:flex;
@@ -24,6 +27,21 @@ body{
         inset -1px -1px 3px #424850;
   border-radius: 20px;
   opacity: .5;
+  box-sizing: border-box;
+  padding: 10px;
+}
+#current-display{
+  align-self: flex-end;
+  height:70%;
+  font-size: 30px;
+  color: orange;
+  padding-top: 15px;
+}
+#past-display{
+  height:30%;
+  padding: 10px;
+  font-size: 20px;
+  color: orange;
 }
 #buttons-div{
   width: 300px;
@@ -48,9 +66,14 @@ body{
 box-shadow: inset 2px 2px 6px #101214,
         inset -2px -2px 6px #424850;
 }
+.number{
+  
+}
 #equal{
   grid-column: span 2;
   width: 100%;
+  background: #eba225;
+  color: white;
 }
 button{
   background: none;
