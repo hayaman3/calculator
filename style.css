@@ -26,18 +26,17 @@ body{
   box-shadow: inset 1px 1px 3px #101214,
         inset -1px -1px 3px #424850;
   border-radius: 20px;
-  opacity: .5;
   box-sizing: border-box;
   padding: 10px;
 }
-#current-display{
+#display-current{
   align-self: flex-end;
   height:70%;
   font-size: 30px;
   color: orange;
   padding-top: 15px;
 }
-#past-display{
+#display-past{
   height:30%;
   padding: 10px;
   font-size: 20px;
