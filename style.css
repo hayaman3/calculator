@@ -74,6 +74,12 @@ box-shadow: inset 2px 2px 6px #101214,
   background: #eba225;
   color: white;
 }
+#equal:active{
+  border-radius: 20px;
+  background: #eba225;
+  box-shadow: inset 5px 5px 5px #ba801d,
+  inset -5px -5px 5px #ffc42d;
+}
 button{
   background: none;
   color: inherit;
