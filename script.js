@@ -11,6 +11,7 @@ let operatorsArray = [];
 let temp = "";
 let operatorClicked = true;
 let lastOperator = "none";
+let equalClicked = false;
 
 allClear.addEventListener('click',clearScreen)
 equal.addEventListener('click' , operate)
@@ -20,7 +21,7 @@ numbers.forEach((button, i) => {
 
         displayCurrent.innerText += numbers[i].innerText;;
 
-        temp = parseFloat(displayCurrent.innerText);
+        temp = parseFloat(Math.abs(displayCurrent.innerText));
 
 
         if(operatorClicked&&lastOperator!="none"){
@@ -28,16 +29,21 @@ numbers.forEach((button, i) => {
         }
 
         operatorClicked = false;
-
+        equalClicked = false;
 
     });
 });
 
 operator.forEach((button, i) => {
     button.addEventListener("click", () => {
+        if(equalClicked){
+
+        }
+
         if(!operatorClicked){
 
             operatorClicked = true;
+            equalClicked = false;
 
             numbersArray.push(temp);
 
@@ -48,47 +54,60 @@ operator.forEach((button, i) => {
     });
 });
 
-let ans = +"";
-
 function operate(){
-    //check to push last number
-    if(!(displayCurrent.innerHTML=="")){
-        numbersArray.push(parseFloat(displayCurrent.innerHTML));
-    }
+    if(!equalClicked){
+        //check to push last number
+        if(!(displayCurrent.innerHTML=="")){
+            numbersArray.push(parseFloat(Math.abs(displayCurrent.innerHTML)));
+            displayPast.innerText += displayCurrent.innerText;
+        }
 
-    //check numbers array for length
-    if(numbersArray.length==0){
-        ans = 0
-    }
-    if(numbersArray.length==1){
-        ans = numbersArray[0]
+        //check numbers array for length
+        if(numbersArray.length==0){
+            ans = 0
+        }
+        if(numbersArray.length==1){
+            ans = numbersArray[0]
+        }
+        
+        else{
+            let placeHolder = parseFloat(Math.abs(numbersArray[0]));
+            let ans = placeHolder;
 
-    }else{
-        for (let i = 0; i <= operatorsArray.length;i++){
+            for (let i = 1, j = 0; j <= operatorsArray.length; i++, j++){
+                placeHolder =  parseFloat(numbersArray[i]);
 
-            numi = Number(numbersArray[i]);
-            numi1 = Number(numbersArray[i+1]);
-            let placeHolder = +""
-
-            if(operatorsArray[i]=="+"){
-
-                placeHolder = numi + numi1;
-                ans = placeHolder + Number(ans);
-                console.log(ans)
-
+                if(operatorsArray[j]=="+"){
+                    ans  += placeHolder;
+                    
+                }else if(operatorsArray[j]=="-"){
+                    ans -= placeHolder;
                 
+                }else if(operatorsArray[j]=="x"){
+                    ans *= placeHolder;
+                
+                }else if(operatorsArray[j]=="÷"){
+                    ans /= placeHolder;
+                }
+                console.log(j+" : " +ans) 
             }
+            console.log("total : "+ans) 
+            displayCurrent.innerText = ans;
+            operatorsArray = [];
+            numbersArray = [];
+            numbersArray.push(ans);
         }
     }
-
-    //ans = numbersArray[0]+numbersArray[1]
-    //console.log(ans)
-
+    equalClicked = true;
 }
 
 function clearScreen(){
     displayCurrent.innerText = "";
     displayPast.innerText = "";
-    num = [];
+    numbersArray = [];
+    operatorsArray = [];
     operatorClicked = false;
+    equalClicked = false;
 }
+
+//create function for check state
