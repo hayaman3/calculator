@@ -8,51 +8,79 @@ const operator = document.querySelectorAll(".operator")
 
 let numbersArray = [];
 let operatorsArray = [];
-let temp = "";
-let operatorClicked = true;
-let lastOperator = "none";
-let equalClicked = false;
 
 allClear.addEventListener('click',clearScreen)
 equal.addEventListener('click' , operate)
 
+
+let currentIndex = 0;
+
 numbers.forEach((button, i) => {
     button.addEventListener("click", () => {
+        if(exceedDisplaySize()){
+            updateDisplay(numbers[i].innerText,false);
+            updateNumbersArray(numbers[i].innerText);
+        }else{
 
-        displayCurrent.innerText += numbers[i].innerText;;
-
-        temp = parseFloat(Math.abs(displayCurrent.innerText));
-
-
-        if(operatorClicked&&lastOperator!="none"){
-            operatorsArray.push(lastOperator)
         }
-
-        operatorClicked = false;
-        equalClicked = false;
-
     });
 });
 
 operator.forEach((button, i) => {
     button.addEventListener("click", () => {
-        if(equalClicked){
+        if(exceedDisplaySize()){
+            currentIndex ++;
+            updateDisplay(operator[i].innerText,true)
+        }else{
 
-        }
-
-        if(!operatorClicked){
-
-            operatorClicked = true;
-            equalClicked = false;
-
-            numbersArray.push(temp);
-
-            lastOperator = operator[i].innerText;
-            displayPast.innerText += displayCurrent.innerText;
-            displayCurrent.innerText = operator[i].innerText;
         }
     });
 });
+
+function updateNumbersArray(data){
+    if(numbersArray[currentIndex]===undefined){
+        numbersArray[currentIndex] = data
+    }else{
+        numbersArray[currentIndex] += data
+    }
+}
+
+function updateOperatorsArray(data){
+
+}
+
+function exceedDisplaySize(){
+    if(displayCurrent.innerText.length<15 && displayPast.innerText.length<20){
+        return true;
+    }else{
+        return false; 
+    }
+}
+
+
+
+function updateDisplay(data,operatorClicked){
+    if(!operatorClicked){
+        displayCurrent.innerText += data;
+    }else if(operatorClicked&&hasPreviousOperator()){
+        displayPast.innerText += displayCurrent.innerText;
+        displayPast.innerText += data
+        displayCurrent.innerText = "";
+    }else{
+        console.log("updateDisplay")
+    }
+}
+
+function hasPreviousOperator(data){
+    let lastIndex = displayPast.innerText.length-1;
+        if(!(/[+\-\x\÷]/.test(displayPast.innerText[lastIndex]))){
+            console.log("hasPreviousOperator true")
+            return true;
+        }else{
+            console.log("hasPreviousOperator false")
+            return false;
+        }
+}
 
 function operate(){
     if(!equalClicked){
@@ -106,8 +134,5 @@ function clearScreen(){
     displayPast.innerText = "";
     numbersArray = [];
     operatorsArray = [];
-    operatorClicked = false;
-    equalClicked = false;
 }
 
-//create function for check state
