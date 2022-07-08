@@ -10,12 +10,16 @@ const allClear = document.getElementById("all-clear");
 const equal = document.getElementById("equal");
 const numbers = document.querySelectorAll(".number");
 const operator = document.querySelectorAll(".operator");
+const positveNegative = document.getElementById("positive-negative");;
+const backspace = document.getElementById("backspace");
 
 const glitch = document.getElementById("glitch")
 
 //button functions
 allClear.addEventListener('click',allClearFunc);
 equal.addEventListener('click' , equalFunc);
+positveNegative.addEventListener('click' , positiveNegativeFunc)
+backspace.addEventListener('click' , backspaceFunc)
 
 numbers.forEach((button, i) => {
     button.addEventListener("click", () => {
@@ -50,6 +54,18 @@ function equalFunc(){
         }
         updateDisplay(ans,"equal");
         saveAns(ans);
+    }
+}
+
+function backspaceFunc(){
+
+}
+
+function positiveNegativeFunc(){
+    if(displayCurrent.textContent[0]=="-"){
+        displayCurrent.textContent = displayCurrent.textContent.slice(1)
+    }else{
+        displayCurrent.textContent = "-"+displayCurrent.textContent;
     }
 }
 
@@ -243,3 +259,4 @@ function glitchAnimation(invalidOperation){
         allClear.classList.remove("shake-infinite");
     }
 }
+
