@@ -6,14 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="style.css">
     
-    <!-- <script src="https://kit.fontawesome.com/2f13a8b69a.js" crossorigin="anonymous"></script>     -->
+    <script src="https://kit.fontawesome.com/2f13a8b69a.js" crossorigin="anonymous"></script>    
 
     <title>Calculator</title>
 </head>
 <body>
     <div id="main">
-        
-
         <div id="screen">
             <div id="display-past"></div>
             <div id="display-current"></div>  
@@ -23,27 +21,25 @@
                 <h1>undefined</h1> 
             </div>    
         </div>
-
         <div id="buttons-div">
-            <button class="button" id="positive-negative" >+/-</button>
-            <button class="button" id="all-clear" style="font-size:10px;">AC</button>
-            <button class="button" id="backspace" style="font-size:10px;">⌫</button>
+            <button class="button" id="all-clear" style="font-size:13px; ">AC</button>
+            <button class="button" id="backspace" style="font-size:15px;"><i class="fa-solid fa-delete-left"></i></button>
             <button class="button operator">÷</button>
+            <button class="button operator" style="font-size:15px;">*</button>
             <button class="button number">7</button>
             <button class="button number">8</button>
             <button class="button number">9</button>
-            <button class="button operator" style="font-size:15px;">x</button>
+            <button class="button operator"style="font-size:20px;">-</button>
             <button class="button number">4</button>
             <button class="button number">5</button>
             <button class="button number">6</button>
-            <button class="button operator"style="font-size:20px;">-</button>
+            <button class="button operator">+</button>
             <button class="button number">1</button>
             <button class="button number">2</button>
             <button class="button number">3</button>
-            <button class="button operator">+</button>
-            <button class="button number">.</button>
-            <button class="button number">0</button>
             <button class="button" id="equal">=</button>
+            <button class="button number" id="zero">0</button>
+            <button class="button number">.</button>
         </div>
     </div>
     <script type="text/javascript" src="script.js"></script>

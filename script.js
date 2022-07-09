@@ -1,6 +1,6 @@
 let numbersArray = [];
 let operatorsArray = [];
-let currentIndex = 0;
+let operatorsRegex = /[+\-\*\÷]/;
 
 //displays
 const displayCurrent = document.getElementById("display-current");
@@ -12,13 +12,12 @@ const numbers = document.querySelectorAll(".number");
 const operator = document.querySelectorAll(".operator");
 const positveNegative = document.getElementById("positive-negative");;
 const backspace = document.getElementById("backspace");
-
+//css
 const glitch = document.getElementById("glitch")
 
 //button functions
 allClear.addEventListener('click',allClearFunc);
 equal.addEventListener('click' , equalFunc);
-positveNegative.addEventListener('click' , positiveNegativeFunc)
 backspace.addEventListener('click' , backspaceFunc)
 
 numbers.forEach((button, i) => {
@@ -26,7 +25,6 @@ numbers.forEach((button, i) => {
         let input = numbers[i].textContent;
         if(fitsDisplay() && !hasDecimal(input)){
             updateDisplay(input,"number");
-            updateNumbersArray(input);
         }
     })
 })
@@ -36,15 +34,14 @@ operator.forEach((button, i) => {
         let input = operator[i].textContent;
         if(fitsDisplay() && !hasRepeatOperators()){
             updateDisplay(input,"operator");
-            updateOperatorsArray(input);
         }
     })
 })
 
 function equalFunc(){
-    if(!recentlySolved("=")){
+    getData()
+    if(!isRecentlySolved("=")&&!areDisplaysEmpty()){
         let ans = 0;
-        updateArrays();
         if(numbersArray.length == 0){
             return;
         }else if(numbersArray.length == 1 ){
@@ -53,20 +50,32 @@ function equalFunc(){
             ans = evaluate();
         }
         updateDisplay(ans,"equal");
-        saveAns(ans);
     }
+}
+
+function allClearFunc(){
+    displayCurrent.textContent = "";
+    displayPast.textContent = "";
+    numbersArray = [];
+    operatorsArray = [];
+    glitchAnimation(false);
 }
 
 function backspaceFunc(){
-
+    if(displayCurrent.textContent.length == 0){
+        //let lastIndex = displayPast.textContent.length-1
+        displayPast.textContent = displayPast.textContent.slice(0,-1);
+    }else{
+        displayCurrent.textContent = displayCurrent.textContent.slice(0,-1);
+    }
 }
 
-function positiveNegativeFunc(){
-    if(displayCurrent.textContent[0]=="-"){
-        displayCurrent.textContent = displayCurrent.textContent.slice(1)
-    }else{
-        displayCurrent.textContent = "-"+displayCurrent.textContent;
-    }
+//auxiliary functions
+function getData(){
+    let display = displayPast.textContent + displayCurrent.textContent;
+    numbersArray= display.split(operatorsRegex);
+    let operators = display.replace(/\d+.?\d+/g, '');
+    operatorsArray = operators.split("");
 }
 
 function evaluate(){
@@ -102,38 +111,8 @@ function evaluate(){
     return ans;
 }
 
-function allClearFunc(){
-    displayCurrent.textContent = "";
-    displayPast.textContent = "";
-    numbersArray = [];
-    operatorsArray = [];
-    currentIndex = 0;
-    glitchAnimation(false);
-}
-
-function saveAns(ans){
-    numbersArray = [];
-    currentIndex = 0;
-    numbersArray[0] = ans;
-    operatorsArray = [];
-}
-
-//update functions
-function updateNumbersArray(data){
-    if(numbersArray[currentIndex]===undefined){
-        numbersArray[currentIndex] = data;
-    }else{
-        numbersArray[currentIndex] += data;
-    }
-}
-
-function updateOperatorsArray(operatorSign){
-    currentIndex ++;
-    operatorsArray.push(operatorSign);
-}
-
 function updateDisplay(input,buttonClicked){
-    if(recentlySolved()){
+    if(isRecentlySolved()){
         displayPast.textContent = "";
     }
     switch(buttonClicked){
@@ -171,24 +150,6 @@ function updateDisplay(input,buttonClicked){
     }
 }
 
-function hasExtraOperator(){
-    let lastIndex = displayPast.textContent.length-1;
-    if((/[+\-\x\÷]/.test(displayPast.textContent[lastIndex]))&&displayCurrent.textContent.length==0){
-        return true;
-    }else{
-        return false;
-    }
-}
-
-function updateArrays(){
-    if(numbersArray.length <= operatorsArray.length){
-        operatorsArray.pop();
-    }
-    numbersArray = numbersArray.map(stringToNumber =>{
-        return Number(stringToNumber)
-    });
-}
-
 // boolean checks
 function fitsDisplay(){
     if(displayCurrent.textContent.length>12){
@@ -208,13 +169,22 @@ function fitsDisplay(){
 
 function hasRepeatOperators(){
     let currentDisplayLength = displayCurrent.textContent.length;
-    let numbersArrayLength = numbersArray.length;
-
-    if(numbersArrayLength>0 && currentDisplayLength>0){
+    let lastIndex = displayPast.length - 1;
+    let lastChar = displayPast.textContent[lastIndex];
+    if(!(operatorsRegex.test(lastChar)) && currentDisplayLength>0){
         return false;
     }else{
         shakeAnimation(displayPast);
         return true;
+    }
+}
+
+function hasExtraOperator(){
+    let lastIndex = displayPast.textContent.length-1;
+    if((operatorsRegex.test(displayPast.textContent[lastIndex]))&&displayCurrent.textContent.length==0){
+        return true;
+    }else{
+        return false;
     }
 }
 
@@ -230,9 +200,20 @@ function hasDecimal(button){
     }
 }
 
-function recentlySolved(){
+function areDisplaysEmpty(){
+    let current = displayCurrent.textContent.length;
+    let past = displayPast.textContent.length;
+    if(current>0||past>0){
+        return false;
+    }else{
+        return true;
+    }
+}
+
+function isRecentlySolved(){
     let lastIndex = displayPast.textContent.length-1;
-    if(displayPast.textContent[lastIndex] == "="){
+    let lastChar = displayPast.textContent[lastIndex]
+    if(lastChar  == "="){
         return true;
     }else{
         return false;
