@@ -1,6 +1,7 @@
 let numbersArray = [];
 let operatorsArray = [];
-let operatorsRegex = /[+\-\*\÷]/;
+let operatorsRegex = /[+\-\*\/]/;
+let ans = 0;
 
 //displays
 const displayCurrent = document.getElementById("display-current");
@@ -12,19 +13,21 @@ const numbers = document.querySelectorAll(".number");
 const operator = document.querySelectorAll(".operator");
 const positveNegative = document.getElementById("positive-negative");;
 const backspace = document.getElementById("backspace");
+
 //css
-const glitch = document.getElementById("glitch")
+const glitch = document.getElementById("glitch");
 
 //button functions
-allClear.addEventListener('click',allClearFunc);
-equal.addEventListener('click' , equalFunc);
-backspace.addEventListener('click' , backspaceFunc)
+allClear.addEventListener('click', allClearFunc);
+equal.addEventListener('click', equalFunc);
+backspace.addEventListener('click', backspaceFunc);
+document.addEventListener('keydown', handleKeyboardInput);
 
 numbers.forEach((button, i) => {
     button.addEventListener("click", () => {
         let input = numbers[i].textContent;
-        if(fitsDisplay() && !hasDecimal(input)){
-            updateDisplay(input,"number");
+        if (fitsDisplay() && !hasDecimal(input)) {
+            updateDisplay(input, "number");
         }
     })
 })
@@ -32,28 +35,27 @@ numbers.forEach((button, i) => {
 operator.forEach((button, i) => {
     button.addEventListener("click", () => {
         let input = operator[i].textContent;
-        if(fitsDisplay() && !hasRepeatOperators()){
-            updateDisplay(input,"operator");
+        if (fitsDisplay() && !hasRepeatOperators()) {
+            updateDisplay(input, "operator");
         }
     })
 })
 
-function equalFunc(){
+function equalFunc() {
     getData()
-    if(!isRecentlySolved("=")&&!areDisplaysEmpty()){
-        let ans = 0;
-        if(numbersArray.length == 0){
+    if (!isRecentlySolved("=") && !areDisplaysEmpty()) {
+        if (numbersArray.length == 0) {
             return;
-        }else if(numbersArray.length == 1 ){
+        } else if (numbersArray.length == 1) {
             ans = numbersArray[0];
-        }else{
+        } else {
             ans = evaluate();
         }
-        updateDisplay(ans,"equal");
+        updateDisplay(ans, "equal");
     }
 }
 
-function allClearFunc(){
+function allClearFunc() {
     displayCurrent.textContent = "";
     displayPast.textContent = "";
     numbersArray = [];
@@ -61,44 +63,59 @@ function allClearFunc(){
     glitchAnimation(false);
 }
 
-function backspaceFunc(){
-    if(displayCurrent.textContent.length == 0){
-        //let lastIndex = displayPast.textContent.length-1
-        displayPast.textContent = displayPast.textContent.slice(0,-1);
-    }else{
-        displayCurrent.textContent = displayCurrent.textContent.slice(0,-1);
+function backspaceFunc() {
+    if (displayCurrent.textContent.length == 0) {
+        displayPast.textContent = displayPast.textContent.slice(0, -1);
+    } else {
+        displayCurrent.textContent = displayCurrent.textContent.slice(0, -1);
     }
+}
+
+function handleKeyboardInput(e) {
+    if (/[0-9\.]/.test(e.key)) {
+        if (fitsDisplay() && !hasDecimal(e.key)) {
+            updateDisplay(e.key, "number");
+        }
+    }
+    if (operatorsRegex.test(e.key)) {
+        if (fitsDisplay() && !hasRepeatOperators()) {
+            updateDisplay(e.key, "operator");
+        }
+    }
+    if (e.key === '=' || e.key === 'Enter') equalFunc()
+    if (e.key === 'Backspace') backspaceFunc()
+    if (e.key === 'Escape') allClearFunc()
 }
 
 //auxiliary functions
 function getData(){
     let display = displayPast.textContent + displayCurrent.textContent;
-    numbersArray= display.split(operatorsRegex);
-    let operators = display.replace(/\d+.?\d+/g, '');
+    numbersArray = display.split(operatorsRegex);
+    let operators = display.replace(/[0-9\.]/g, '');
     operatorsArray = operators.split("");
 }
 
-function evaluate(){
+function evaluate() {
     let nextNumber = Number(numbersArray[0]);
     ans = nextNumber;
-    for (let i = 1, j = 0; j < operatorsArray.length; i++, j++){
-        nextNumber =  Number(numbersArray[i]);
-        switch(operatorsArray[j]){
+    for(let i = 1, j = 0; j < operatorsArray.length; i++, j++){
+        nextNumber = Number(numbersArray[i]);
+        switch (operatorsArray[j]) {
             case "+":
-                ans  += nextNumber;
+                ans += nextNumber;
                 break;
             case "-":
                 ans -= nextNumber;
                 break;
-            case "x":
+            case "*":
                 ans *= nextNumber;
                 break;
-            case "÷":
-                if(nextNumber==0){
+            case "/":
+                if (nextNumber == 0) {
                     ans = 0;
-                    updateDisplay(ans,"didivdedByZero");
+                    updateDisplay(ans, "didivdedByZero");
                     return
-                }else{
+                } else {
                     ans /= nextNumber;
                     break;
                 }
@@ -111,15 +128,15 @@ function evaluate(){
     return ans;
 }
 
-function updateDisplay(input,buttonClicked){
-    if(isRecentlySolved()){
+function updateDisplay(input, buttonClicked) {
+    if (isRecentlySolved()) {
         displayPast.textContent = "";
     }
-    switch(buttonClicked){
+    switch (buttonClicked) {
         case "number":
-            if(!(displayCurrent.textContent[0]==0)){
+            if (!(displayCurrent.textContent[0] == 0)) {
                 displayCurrent.textContent += input;
-            }else{
+            } else {
                 displayCurrent.textContent = input;
             }
             break;
@@ -129,14 +146,14 @@ function updateDisplay(input,buttonClicked){
             displayCurrent.textContent = "";
             break;
         case "equal":
-            if(hasExtraOperator()){
-                displayPast.textContent = displayPast.textContent.slice(0,-1);
+            if (hasExtraOperator()) {
+                displayPast.textContent = displayPast.textContent.slice(0, -1);
                 displayPast.textContent += displayCurrent.textContent;
-                displayPast.textContent +=  "=";
+                displayPast.textContent += "=";
                 displayCurrent.textContent = input;
-            }else{
+            } else {
                 displayPast.textContent += displayCurrent.textContent;
-                displayPast.textContent +=  "=";
+                displayPast.textContent += "=";
                 displayCurrent.textContent = input;
             }
             break;
@@ -146,98 +163,98 @@ function updateDisplay(input,buttonClicked){
         default:
             // do nothing
             console.log("something is wrong in display update");
-            break;    
+            break;
     }
 }
 
 // boolean checks
-function fitsDisplay(){
-    if(displayCurrent.textContent.length>12){
+function fitsDisplay() {
+    if (displayCurrent.textContent.length > 12) {
         shakeAnimation(displayCurrent);
         return false;
-    }else if(displayPast.textContent.length>17){
+    } else if (displayPast.textContent.length > 17) {
         shakeAnimation(displayPast);
         return false;
-    }else if(displayCurrent.textContent.length+displayPast.textContent.length>17){
+    } else if (displayCurrent.textContent.length + displayPast.textContent.length > 17) {
         shakeAnimation(displayCurrent);
         shakeAnimation(displayPast);
         return false;
-    }else{
+    } else {
         return true;
     }
 }
 
-function hasRepeatOperators(){
+function hasRepeatOperators() {
     let currentDisplayLength = displayCurrent.textContent.length;
-    let lastIndex = displayPast.length - 1;
+    let pastDisplayLength = displayPast.textContent.length;
+    let lastIndex = displayPast.textContent.length - 1;
     let lastChar = displayPast.textContent[lastIndex];
-    if(!(operatorsRegex.test(lastChar)) && currentDisplayLength>0){
+    if (!(operatorsRegex.test(lastChar)) || currentDisplayLength > 0) {
         return false;
-    }else{
+    } else {
         shakeAnimation(displayPast);
         return true;
     }
 }
 
-function hasExtraOperator(){
-    let lastIndex = displayPast.textContent.length-1;
-    if((operatorsRegex.test(displayPast.textContent[lastIndex]))&&displayCurrent.textContent.length==0){
+function hasExtraOperator() {
+    let lastIndex = displayPast.textContent.length - 1;
+    if ((operatorsRegex.test(displayPast.textContent[lastIndex])) && displayCurrent.textContent.length == 0) {
         return true;
-    }else{
+    } else {
         return false;
     }
 }
 
-function hasDecimal(button){
-    if(button=="."){
-        if((/[.]/.test(displayCurrent.textContent))){
+function hasDecimal(button) {
+    if (button == ".") {
+        if ((/[.]/.test(displayCurrent.textContent))) {
             return true;
-        }else{
+        } else {
             return false;
         }
-    }else{
+    } else {
         return false;
     }
 }
 
-function areDisplaysEmpty(){
+function areDisplaysEmpty() {
     let current = displayCurrent.textContent.length;
     let past = displayPast.textContent.length;
-    if(current>0||past>0){
+    if (current > 0 || past > 0) {
         return false;
-    }else{
+    } else {
         return true;
     }
 }
 
-function isRecentlySolved(){
-    let lastIndex = displayPast.textContent.length-1;
+function isRecentlySolved() {
+    let lastIndex = displayPast.textContent.length - 1;
     let lastChar = displayPast.textContent[lastIndex]
-    if(lastChar  == "="){
+    if (lastChar == "=") {
         return true;
-    }else{
+    } else {
         return false;
     }
 }
 
 // animation
-function shakeAnimation(element){
+function shakeAnimation(element) {
     element.classList.remove("shake");
     element.offsetWidth;
     element.classList.add("shake");
 }
 
-function glitchAnimation(invalidOperation){
-    if(invalidOperation){
+function glitchAnimation(invalidOperation) {
+    if (invalidOperation) {
         displayPast.style.display = "none";
         displayCurrent.style.display = "none";
         glitch.style.display = "block";
         allClear.classList.add("shake-infinite");
-    }else{
+    } else {
         displayPast.style.display = "block";
         displayCurrent.style.display = "block";
         glitch.style.display = "none";
         allClear.classList.remove("shake-infinite");
     }
 }
-
