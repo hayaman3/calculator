@@ -42,7 +42,7 @@ operator.forEach((button, i) => {
 })
 
 function equalFunc() {
-    getData()
+    getData();
     if (!isRecentlySolved("=") && !areDisplaysEmpty()) {
         if (numbersArray.length == 0) {
             return;
@@ -230,7 +230,7 @@ function areDisplaysEmpty() {
 
 function isRecentlySolved() {
     let lastIndex = displayPast.textContent.length - 1;
-    let lastChar = displayPast.textContent[lastIndex]
+    let lastChar = displayPast.textContent[lastIndex];
     if (lastChar == "=") {
         return true;
     } else {
