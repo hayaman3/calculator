@@ -258,3 +258,13 @@ function glitchAnimation(invalidOperation) {
         allClear.classList.remove("shake-infinite");
     }
 }
+ 
+document.getElementById('theme-toggle').addEventListener('click', setTheme)
+const root = document.documentElement;
+
+function setTheme() {
+    root.classList.toggle("light")
+    // const newTheme = root.className
+    // root.className = newTheme;
+    // document.getElementById('theme-toggle').textContent = newTheme;
+}
