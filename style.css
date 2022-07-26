@@ -17,6 +17,9 @@
                 -5px -5px 10px #313439;
   --button-active:inset 2px 2px 6px #101214,
                   inset -2px -2px 6px #424850;
+
+  --header-height: 50px;
+  --footer-height: 50px;
 }
 
 :root.light{
@@ -171,11 +174,9 @@ button{
   margin:auto;
   padding: 10px;
   border-radius: 7%;
-  background-color: #101214;
-  color:#ba801d;
-  border: 1px solid black;
   margin-top: 10px;
-  opacity: .8;
+  color:var(--button-color);
+  background: var(--button-background);
 }
 
 .shake{
@@ -358,4 +359,24 @@ button{
     transform: none;
     opacity: 0.25;
   }
+}
+
+footer{
+  position:absolute;
+  bottom:0px;
+  height:var(--footer-height);
+  width: 100%;
+  display:flex;
+  align-content: center;
+  justify-content: center;
+  text-align: center;
+  opacity:.9;
+  gap:40px;
+  padding-top:10px;
+  border-top: grey solid 1px;
+  opacity: .8;
+}
+#svg{
+  height: 40px;
+  width: 32px;
 }

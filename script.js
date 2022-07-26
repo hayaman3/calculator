@@ -35,7 +35,7 @@ numbers.forEach((button, i) => {
 operator.forEach((button, i) => {
     button.addEventListener("click", () => {
         let input = operator[i].textContent;
-        if (fitsDisplay() && !hasRepeatOperators()) {
+        if (fitsDisplay() && !hasRepeatOperators() &&(displayPast.innerText.length!=0||displayCurrent.innerText.length!=0)) {
             updateDisplay(input, "operator");
         }
     })
