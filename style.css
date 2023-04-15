@@ -10,7 +10,7 @@
     -1px -1px 1px #313439;
   --screen-boxshadow: inset 1px 1px 3px #101214,
     inset -1px -1px 3px #424850;
-  --accent-color: #eba225;
+  --screen-color: #eba225;
   --button-color: aqua;
   --button-background: linear-gradient(145deg, #25292d, #2c3036);
   --button-boxshadow: 5px 5px 10px #23262b,
@@ -25,12 +25,12 @@
   --main-boxshadow: 1px 1px 2px #a2a7ab,
     -1px -1px 1px #f2f0f0;
   --screen-boxshadow: inset 1px 1px 3px #a2a7ab,
-    inset -1px -1px 3px #f2f0f0;
-  --accent-color: #faad27;
+    inset -1px -1px 3px #cccccc;
+  --screen-color: #5c5c5c;
   --button-color: #40505a;
   --button-background: linear-gradient(145deg, #eaf1f5, #cdd4d9);
   --button-boxshadow: 5px 5px 10px #a2a7ab,
-    -5px -5px 10px #f2f0f0;
+    -5px -5px 10px #d7d7d7;
   --button-active: inset 2px 2px 6px #a2a7ab,
     inset -2px -2px 6px #f2f0f0;
 }
@@ -57,11 +57,10 @@ body {
 }
 
 #main {
-  /* width: 20px; */
   display: flex;
   flex-direction: column;
   margin: auto;
-  padding: 25px 20px 20px 20px;
+  padding: 1.5rem 1.25rem 1.25rem 1.25rem;
   gap: .5rem;
   border-radius: 2rem 2rem 1rem 1rem;
   background: var(--main-background);
@@ -71,27 +70,104 @@ body {
 #screen {
   display: flex;
   flex-direction: column;
-  min-height: 11rem;
+  height: 11rem;
+  width: 16.5rem;
   box-shadow: var(--screen-boxshadow);
-  border-radius: 20px;
+  border-radius: 1.25rem;
   box-sizing: border-box;
   padding: .5em;
   font-family: digital-clock-font;
-  color: #eba225;
+  color: var(--screen-color);
+  /* white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; */
 }
 
 #display-current {
   align-self: flex-end;
-  height: 65%;
-  font-size: 45px;
+  font-size: 2.8rem;
   padding: 35px 10px 10px;
 }
 
 #display-past {
   align-self: flex-end;
   height: 35%;
+  padding: 0.8rem;
+  font-size: 2.8rem;
+}
+
+
+
+#buttons-div {
+  width: 90%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: .9rem;
+  margin: auto;
   padding: 10px;
-  font-size: 35px;
+}
+
+.button {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  font-size: 1rem;
+  height: 50px;
+  width: 50px;
+  border-radius: 1rem;
+  padding: 16px 12px;
+  color: var(--button-color);
+  background: var(--button-background);
+  box-shadow: var(--button-boxshadow);
+}
+
+.button:active:hover {
+  box-shadow: var(--button-active);
+}
+
+#zero {
+  width: 100%;
+  grid-column: span 2;
+}
+
+i {
+  opacity: .7;
+}
+
+#equal {
+  grid-row: span 2;
+  height: 100%;
+  background: var(--screen-color);
+  opacity: .9;
+  color: black;
+  border-radius: 10px;
+  font-size: 1.5rem;
+}
+
+#equal:active {
+  border-radius: 10px;
+  box-shadow: inset 5px 5px 5px #ba801d,
+    inset -5px -5px 5px #ffc42d;
+}
+
+button {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
+#theme-toggle {
+  display: block;
+  margin: auto;
+  padding: 10px;
+  border-radius: 10px;
+  opacity: .7;
+  color: var(--button-color);
+  background: var(--button-background);
 }
 
 #glitch {
@@ -118,79 +194,6 @@ h1:nth-child(2) {
 h1:nth-child(3) {
   color: #f16f6f;
   animation: glitch3 2.5s infinite;
-}
-
-#buttons-div {
-  width: 90%;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: .9rem;
-  margin: auto;
-  padding: 10px;
-}
-
-.button {
-  color: var(--button-color);
-  height: 50px;
-  width: 50px;
-  border-radius: 1rem;
-  background: var(--button-background);
-  box-shadow: var(--button-boxshadow);
-  padding: 16px 12px;
-  /* text-align: center; */
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-}
-
-.button:active:hover {
-  box-shadow: var(--button-active);
-}
-
-#zero {
-  width: 100%;
-  grid-column: span 2;
-}
-
-i {
-  opacity: .7;
-}
-
-#equal {
-  grid-row: span 2;
-  height: 100%;
-  background: #eba225;
-  opacity: .9;
-  color: black;
-  border-radius: 10px;
-  font-size: 1.5rem;
-}
-
-#equal:active {
-  border-radius: 10px;
-  background: #eba225;
-  box-shadow: inset 5px 5px 5px #ba801d,
-    inset -5px -5px 5px #ffc42d;
-}
-
-button {
-  background: none;
-  color: inherit;
-  border: none;
-  padding: 0;
-  font: inherit;
-  cursor: pointer;
-  outline: inherit;
-}
-
-#theme-toggle {
-  display: block;
-  margin: auto;
-  padding: 10px;
-  border-radius: 10px;
-  opacity: .7;
-  color: var(--button-color);
-  background: var(--button-background);
 }
 
 .shake {

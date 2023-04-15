@@ -169,13 +169,13 @@ function updateDisplay(input, buttonClicked) {
 
 // boolean checks
 function fitsDisplay() {
-    if (displayCurrent.textContent.length > 12) {
+    if (displayCurrent.textContent.length > 9) {
         shakeAnimation(displayCurrent);
         return false;
-    } else if (displayPast.textContent.length > 17) {
+    } else if (displayPast.textContent.length > 12) {
         shakeAnimation(displayPast);
         return false;
-    } else if (displayCurrent.textContent.length + displayPast.textContent.length > 17) {
+    } else if (displayCurrent.textContent.length + displayPast.textContent.length > 9) {
         shakeAnimation(displayCurrent);
         shakeAnimation(displayPast);
         return false;
