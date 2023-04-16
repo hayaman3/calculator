@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,29 +10,35 @@
     <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest"> 
+    <link rel="manifest" href="/site.webmanifest">
     <title>Calculator</title>
 </head>
+
 <body>
-    <div id="main"> 
+    <div id="main">
+        <label class="switch">
+            <input type="checkbox" id="theme-toggle">
+            <span class="slider"></span>
+        </label>
         <div id="screen">
             <div id="display-past"></div>
-            <div id="display-current"></div>  
+            <div id="display-current"></div>
             <div id="glitch">
                 <h1>undefined</h1>
                 <h1>undefined</h1>
-                <h1>undefined</h1> 
-            </div>    
+                <h1>undefined</h1>
+            </div>
         </div>
         <div id="buttons-div">
             <button class="button" id="all-clear" style="font-size:13px; ">AC</button>
-            <button class="button" id="backspace" style="font-size:15px;"><i class="fa-solid fa-delete-left"></i></button>
+            <button class="button" id="backspace" style="font-size:15px;"><i
+                    class="fa-solid fa-delete-left"></i></button>
             <button class="button operator">/</button>
             <button class="button operator" style="font-size:15px;">*</button>
             <button class="button number">7</button>
             <button class="button number">8</button>
             <button class="button number">9</button>
-            <button class="button operator"style="font-size:20px;">-</button>
+            <button class="button operator" style="font-size:20px;">-</button>
             <button class="button number">4</button>
             <button class="button number">5</button>
             <button class="button number" data-key="54">6</button>
@@ -44,7 +51,6 @@
             <button class="button number">.</button>
         </div>
     </div>
-    <button id="theme-toggle">Change Theme</button>
 
     <footer>
         <a href="https://www.theodinproject.com/lessons/foundations-calculator">
@@ -54,7 +60,8 @@
             <img src="svg/github.svg" alt="github.com" id="svg">
         </a>
     </footer>
-    
+
     <script type="text/javascript" src="script.js"></script>
 </body>
+
 </html>
