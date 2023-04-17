@@ -78,9 +78,6 @@ body {
   padding: .5em;
   font-family: digital-clock-font;
   color: var(--screen-color);
-  /* white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis; */
 }
 
 #display-current {
@@ -119,7 +116,7 @@ body {
   box-shadow: var(--button-boxshadow);
 }
 
-.button:active:hover {
+.button:active {
   box-shadow: var(--button-active);
 }
 

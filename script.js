@@ -264,7 +264,4 @@ const root = document.documentElement;
 
 function setTheme() {
     root.classList.toggle("light")
-    // const newTheme = root.className
-    // root.className = newTheme;
-    // document.getElementById('theme-toggle').textContent = newTheme;
 }
